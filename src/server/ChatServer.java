@@ -65,7 +65,12 @@ public class ChatServer
                     clients.put(userName, ch = new ClientHandler(socket, userName, cs));
                     out.println("Welcome: " + userName);
                     ch.start();
+                }else
+                {
+                    out.println("Remember to use the format: USER#brugernavn ");
+                    //fejl opstår - bruger får ikke lov at komme på selv efter korrekt indtastning
                 }
+                    
                 if (clientsSize!=clients.size())
                 {
                     clientsSize = clients.size();
