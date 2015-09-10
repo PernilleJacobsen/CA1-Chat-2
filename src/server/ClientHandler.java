@@ -66,18 +66,19 @@ public class ClientHandler extends Thread
                     String msg = splitInput[2];
                     String receiver = receivers[0];
                     cs.sendToOne(msg, receiver);
-                } else if (receivers.length > 1)
+                } else
                 {
                     String msg = splitInput[2];
                     cs.sendToSome(msg, receivers);
-                } else
+                } 
+            }
+            else
                 {
                     sendMSG("Please use one of the following commands:");
                     sendMSG("MSG#USER1#...");
                     sendMSG("MSG#USER1,USER2#...");
                     sendMSG("MSG#*#...");
                 }
-            }
             Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, String.format("Received the message: %1$S ", message.toUpperCase()));
             message = input.nextLine(); //IMPORTANT blocking call
         }
