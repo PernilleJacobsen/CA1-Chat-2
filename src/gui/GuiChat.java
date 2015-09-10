@@ -20,8 +20,10 @@ import utils.Utils;
  */
 public class GuiChat extends javax.swing.JFrame implements Observer
 {
+
     ChatClient cc;
     private static final Properties properties = Utils.initProperties("server.properties");
+
     /**
      * Creates new form GuiChat
      */
@@ -29,17 +31,18 @@ public class GuiChat extends javax.swing.JFrame implements Observer
     {
         initComponents();
         cc = new ChatClient();
+        cc.addObserver(this);
         int port = Integer.parseInt(properties.getProperty("port"));
         String ip = properties.getProperty("serverIp");
-        cc.addObserver(this);
+
         try
         {
             cc.connect(ip, port);
+            jTextArea2.setText("Connected to client, welcome\n");
         } catch (IOException ex)
         {
             Logger.getLogger(GuiChat.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
     /**
@@ -112,8 +115,9 @@ public class GuiChat extends javax.swing.JFrame implements Observer
                         .addComponent(jLabel1)
                         .addGap(8, 8, 8)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 93, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -127,10 +131,9 @@ public class GuiChat extends javax.swing.JFrame implements Observer
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
     {//GEN-HEADEREND:event_jButton1ActionPerformed
         cc.send(jTextArea1.getText());
-        
+        jTextArea1.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
     /**
      * @param args the command line arguments
      */
@@ -189,7 +192,7 @@ public class GuiChat extends javax.swing.JFrame implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-       jTextArea2.append(arg.toString()+"\n");
-       jTextArea1.setText("");        
+        jTextArea2.append(arg.toString() + "\n");
+        
     }
 }

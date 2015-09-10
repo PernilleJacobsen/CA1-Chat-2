@@ -10,9 +10,13 @@ import java.io.BufferedReader;
 import server.ChatServer;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Scanner;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -26,12 +30,15 @@ import static org.junit.Assert.*;
 public class TestChatServer
 {
 
-    private BufferedReader in;
-    private ChatClient client;
-    private Socket socket;
-    private String userName1 = "USER#A";
-    private String userName2 = "USER#B";
-    private String userName3 = "USER#C";
+    private BufferedReader inA;
+    private BufferedReader inB;
+    private PrintWriter outA;
+    private PrintWriter outB;
+    private Socket socketA;
+    private Socket socketB;
+    private final String userNameA = "USER#A";
+    private final String userNameB = "USER#B";
+    private String msg;
 
     public TestChatServer()
     {
@@ -65,17 +72,34 @@ public class TestChatServer
     public void user() throws IOException
     {
         //vi tester om vi kan logge en bruger ind.
-        client = new ChatClient();
-        client.connect("localhost", 9090);
-        client.send(userName1);
-        client.addObserver(new Observer()
-        {
-            @Override
-            public void update(Observable o, Object arg)
-            {
-                assertEquals("Welcome: A", arg.toString());
-            }
-        });
+        socketA = new Socket("localhost", 9090);
+        inA = new BufferedReader(new InputStreamReader(socketA.getInputStream()));
+        outA = new PrintWriter(socketA.getOutputStream(), true);
 
+        outA.println(userNameA);
+        msg = inA.readLine();
+        assertEquals("Welcome: A", msg);
     }
+
+    public void sendMSGtoAll() throws IOException
+    {
+        //Vi test at vi kan sende til alle 
+        msg = "MSG#*#JUnitTest";
+                
+        socketA = new Socket("localhost", 9090);
+        inA = new BufferedReader(new InputStreamReader(socketA.getInputStream()));
+        outA = new PrintWriter(socketA.getOutputStream(), true);
+
+        socketB = new Socket("localhost", 9090);
+        inB = new BufferedReader(new InputStreamReader(socketB.getInputStream()));
+        outB = new PrintWriter(socketB.getOutputStream(), true);
+        outA.println(userNameA);
+        outB.println(userNameB);
+        
+        outA.println(msg);
+        assertEquals("MSG#A#JUnitTest", inA);
+        assertEquals("MSG#A#JUnitTest", inB);
+    }
+    
+    
 }
