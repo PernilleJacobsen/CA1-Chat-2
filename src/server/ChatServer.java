@@ -65,17 +65,20 @@ public class ChatServer
                     clients.put(userName, ch = new ClientHandler(socket, userName, cs));
                     out.println("Welcome: " + userName);
                     ch.start();
+                    String userList= cs.userList();
+                    cs.sendToAll(userList);
                 }else
                 {
                     out.println("Remember to use the format: USER#brugernavn ");
                     //fejl opstår - bruger får ikke lov at komme på selv efter korrekt indtastning
                 }
                     
-                if (clientsSize!=clients.size())
-                {
-                    clientsSize = clients.size();
-                    cs.userList();
-                }
+//                if (clientsSize!=clients.size())
+//                {
+//                    clientsSize = clients.size();
+//                    String userList= cs.userList();
+//                    cs.sendToAll(userList);
+//                }
 
             }
         } catch (IOException ex)
@@ -137,7 +140,7 @@ public class ChatServer
         clients.remove(userName);
     }
 
-    public void userList()
+    public String userList()
     {
         String temp;
         String msg = "USERLIST#";
@@ -146,8 +149,9 @@ public class ChatServer
         {
             temp = entry.getKey() ;
             receiver = entry.getValue();
-            msg += temp + ", ";
+            msg += temp + ", " ;
+            
         }
-        out.println(msg);
+      return msg;
     }
 }

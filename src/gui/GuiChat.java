@@ -18,7 +18,7 @@ import utils.Utils;
  *
  * @author Pernille
  */
-public class GuiChat extends javax.swing.JFrame
+public class GuiChat extends javax.swing.JFrame implements Observer
 {
     ChatClient cc;
     private static final Properties properties = Utils.initProperties("server.properties");
@@ -31,6 +31,7 @@ public class GuiChat extends javax.swing.JFrame
         cc = new ChatClient();
         int port = Integer.parseInt(properties.getProperty("port"));
         String ip = properties.getProperty("serverIp");
+        cc.addObserver(this);
         try
         {
             cc.connect(ip, port);
@@ -126,16 +127,7 @@ public class GuiChat extends javax.swing.JFrame
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
     {//GEN-HEADEREND:event_jButton1ActionPerformed
         cc.send(jTextArea1.getText());
-        cc.addObserver(new Observer()
-        {
-
-            @Override
-            public void update(Observable o, Object arg)
-            {
-                jTextArea2.append(arg.toString()+"\n");
-                jTextArea1.setText("");
-            }
-        });
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     
@@ -193,4 +185,11 @@ public class GuiChat extends javax.swing.JFrame
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object arg)
+    {
+       jTextArea2.append(arg.toString()+"\n");
+       jTextArea1.setText("");        
+    }
 }

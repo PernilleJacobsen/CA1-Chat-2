@@ -74,10 +74,11 @@ public class ClientHandler extends Thread
             }
             else
                 {
-                    sendMSG("Please use one of the following commands:");
-                    sendMSG("MSG#USER1#...");
-                    sendMSG("MSG#USER1,USER2#...");
-                    sendMSG("MSG#*#...");
+                    out.print("her");
+//                    sendMSG("Please use one of the following commands:");
+//                    sendMSG("MSG#USER1#...");
+//                    sendMSG("MSG#USER1,USER2#...");
+//                    sendMSG("MSG#*#...");
                 }
             Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, String.format("Received the message: %1$S ", message.toUpperCase()));
             message = input.nextLine(); //IMPORTANT blocking call
@@ -87,7 +88,8 @@ public class ClientHandler extends Thread
         {
             //Send userlist og fjern bruger fra map.
             cs.removeUser(userName);
-            cs.userList();
+            String userList= cs.userList();
+            cs.sendToAll(userList);
             currentThread().interrupt();
             input.close();
             out.close();
