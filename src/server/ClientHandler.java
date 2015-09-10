@@ -54,22 +54,21 @@ public class ClientHandler extends Thread
             if (command.equals("MSG"))
             {
                 String[] receivers = splitInput[1].split(",");
-                System.out.println("recievers size er: " + receivers.length);
                 if (receivers.length == 1 && receivers[0].equals("*"))
                 {
                     String msg = splitInput[2];
-                    cs.sendToAll(msg);
+                    cs.sendToAll(msg, userName);
                 } else if (receivers.length == 1)
                 {
                     //Vi vil gerne have fat i den clienthandler som navnet i receivers hør sammem
                     //med.
                     String msg = splitInput[2];
                     String receiver = receivers[0];
-                    cs.sendToOne(msg, receiver);
+                    cs.sendToOne(msg, receiver, userName);
                 } else
                 {
                     String msg = splitInput[2];
-                    cs.sendToSome(msg, receivers);
+                    cs.sendToSome(msg, receivers, userName);
                 } 
             }
             else
@@ -89,7 +88,7 @@ public class ClientHandler extends Thread
             //Send userlist og fjern bruger fra map.
             cs.removeUser(userName);
             String userList= cs.userList();
-            cs.sendToAll(userList);
+            cs.sendUserListToAll(cs.userList());
             currentThread().interrupt();
             input.close();
             out.close();

@@ -39,7 +39,6 @@ public class ChatClient extends Observable
         output = new PrintWriter(socket.getOutputStream(), true);  //Set to true, to get auto flush behaviour
         new Thread(new Runnable()
         {
-
             @Override
             public void run()
             {

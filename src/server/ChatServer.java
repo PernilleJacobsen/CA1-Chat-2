@@ -65,20 +65,13 @@ public class ChatServer
                     clients.put(userName, ch = new ClientHandler(socket, userName, cs));
                     out.println("Welcome: " + userName);
                     ch.start();
-                    String userList= cs.userList();
-                    cs.sendToAll(userList);
+                    
+                    cs.sendUserListToAll(cs.userList());
                 }else
                 {
-                    out.println("Remember to use the format: USER#brugernavn ");
+                    out.println("Remember to use the format: USER#brugernavn");
                     //fejl opstår - bruger får ikke lov at komme på selv efter korrekt indtastning
                 }
-                    
-//                if (clientsSize!=clients.size())
-//                {
-//                    clientsSize = clients.size();
-//                    String userList= cs.userList();
-//                    cs.sendToAll(userList);
-//                }
 
             }
         } catch (IOException ex)
@@ -103,36 +96,40 @@ public class ChatServer
 
     }
 
-    public void sendToAll(String msg)
+    public void sendToAll(String msg, String userName)
     {
-        System.out.println("Hvad er det her: " + msg);
-        System.out.println("5.client size er: " + clients.size());
         for (Map.Entry<String, ClientHandler> entry : clients.entrySet())
         {
-            System.out.println("kan vi komme her ned?");
+            ClientHandler receiver = entry.getValue();
+            receiver.sendMSG("MSG#"+userName+"#"+msg);
+        }
+    }
+    public void sendUserListToAll(String msg)
+    {
+        for (Map.Entry<String, ClientHandler> entry : clients.entrySet())
+        {
             ClientHandler receiver = entry.getValue();
             receiver.sendMSG(msg);
         }
     }
-
-    public void sendToSome(String msg, String[] receivers)
+    
+    public void sendToSome(String msg, String[] receivers, String userName)
     {
         for (String receiver1 : receivers)
         {
             String temp = receiver1;
             if (clients.containsKey(receiver1))
             {
-                System.out.println("receiver 1 i client: " + clients.get(temp));
                 ClientHandler receiver = clients.get(temp);
-                receiver.sendMSG(msg);
+                receiver.sendMSG("MSG#"+userName+"#"+msg);
             }
         }
     }
 
-    public void sendToOne(String msg, String receivers)
+    public void sendToOne(String msg, String receivers, String userName)
     {
         ClientHandler receiver = clients.get(receivers);
-        receiver.sendMSG(msg);
+        receiver.sendMSG("MSG#"+userName+"#"+msg);
     }
 
     public void removeUser(String userName)

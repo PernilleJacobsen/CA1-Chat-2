@@ -1,12 +1,4 @@
-sep. 10, 2015 10:14:02 AM server.ChatServer runServer
+sep 10, 2015 12:53:55 PM server.ChatServer runServer
 INFO: Sever started. Listening on: 9090, bound to: localhost
-sep. 10, 2015 10:14:13 AM server.ChatServer runServer
+sep 10, 2015 12:53:56 PM server.ChatServer runServer
 INFO: Connected to a client
-sep. 10, 2015 10:14:49 AM server.ClientHandler run
-INFO: Received the message: MSG#PJ#HEJ 
-sep. 10, 2015 10:14:49 AM server.ClientHandler run
-INFO: Received the message: MSG#PJ#HEJ 
-sep. 10, 2015 10:15:09 AM server.ChatServer runServer
-INFO: Connected to a client
-sep. 10, 2015 10:16:04 AM server.ClientHandler run
-INFO: Received the message: MSG#*#HI 
