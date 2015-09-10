@@ -62,14 +62,11 @@ public class ChatServer
                 {
                     String userName = splitInput[1];
                     clients.put(userName, ch = new ClientHandler(socket, userName, cs));
-                    out.println("Welcome: " + userName);
                     ch.start();
-                    
                     cs.sendUserListToAll(cs.userList());
                 }else
                 {
-                    out.println("Remember to use the format: USER#brugernavn");
-                    //fejl opstår - bruger får ikke lov at komme på selv efter korrekt indtastning
+                   ch.sendMSG("Remember to use the format: USER#username");
                 }
 
             }

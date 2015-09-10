@@ -73,16 +73,11 @@ public class ClientHandler extends Thread
             }
             else
                 {
-                    out.print("her");
-//                    sendMSG("Please use one of the following commands:");
-//                    sendMSG("MSG#USER1#...");
-//                    sendMSG("MSG#USER1,USER2#...");
-//                    sendMSG("MSG#*#...");
+                  
                 }
             Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, String.format("Received the message: %1$S ", message.toUpperCase()));
             message = input.nextLine(); //IMPORTANT blocking call
         }
-        out.println("Bye bye");//Echo the stop message back to the client for a nice closedown
         try
         {
             //Send userlist og fjern bruger fra map.
