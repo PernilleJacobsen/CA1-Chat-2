@@ -47,7 +47,6 @@ public class ChatServer
         {
             serverSocket = new ServerSocket();
             serverSocket.bind(new InetSocketAddress(ip, port));
-            int clientsSize = 0;
 
             while (keepRunning)
             {
@@ -64,11 +63,7 @@ public class ChatServer
                     clients.put(userName, ch = new ClientHandler(socket, userName, cs));
                     ch.start();
                     cs.sendUserListToAll(cs.userList());
-                }else
-                {
-                   ch.sendMSG("Remember to use the format: USER#username");
                 }
-
             }
         } catch (IOException ex)
         {
@@ -89,7 +84,6 @@ public class ChatServer
         {
             Utils.closeLogger(ChatServer.class.getName());
         }
-
     }
 
     public void sendToAll(String msg, String userName)
@@ -137,11 +131,9 @@ public class ChatServer
     {
         String temp;
         String msg = "USERLIST#";
-        ClientHandler receiver = null;
         for (Map.Entry<String, ClientHandler> entry : clients.entrySet())
         {
             temp = entry.getKey() ;
-            receiver = entry.getValue();
             msg += temp + ", " ;
             
         }

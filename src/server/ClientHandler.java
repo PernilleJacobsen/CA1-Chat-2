@@ -73,7 +73,7 @@ public class ClientHandler extends Thread
             }
             else
                 {
-                  
+                    sendMSG("Invalid command");
                 }
             Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, String.format("Received the message: %1$S ", message.toUpperCase()));
             message = input.nextLine(); //IMPORTANT blocking call
