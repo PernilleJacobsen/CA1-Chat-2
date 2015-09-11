@@ -60,7 +60,8 @@ public class ChatServer
                 if (command.equals("USER"))
                 {
                     String userName = splitInput[1];
-                    clients.put(userName, ch = new ClientHandler(socket, userName, cs));
+                    ch = new ClientHandler(socket, userName, cs);
+                    clients.put(userName, ch);
                     ch.start();
                     cs.sendUserListToAll(cs.userList());
                 }
@@ -91,18 +92,32 @@ public class ChatServer
         for (Map.Entry<String, ClientHandler> entry : clients.entrySet())
         {
             ClientHandler receiver = entry.getValue();
-            receiver.sendMSG("MSG#"+userName+"#"+msg);
+            try
+            {
+
+                receiver.sendMSG("MSG#" + userName + "#" + msg);
+            } catch (NullPointerException ex)
+            {
+                receiver = clients.get(userName);
+                receiver.sendMSG("MSG#" + userName + "#User doesn't exsist");
+                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
+
     public void sendUserListToAll(String msg)
     {
+        if (clients.isEmpty())
+        {
+
+        }
         for (Map.Entry<String, ClientHandler> entry : clients.entrySet())
         {
             ClientHandler receiver = entry.getValue();
             receiver.sendMSG(msg);
         }
     }
-    
+
     public void sendToSome(String msg, String[] receivers, String userName)
     {
         for (String receiver1 : receivers)
@@ -111,7 +126,15 @@ public class ChatServer
             if (clients.containsKey(receiver1))
             {
                 ClientHandler receiver = clients.get(temp);
-                receiver.sendMSG("MSG#"+userName+"#"+msg);
+                try
+                {
+                    receiver.sendMSG("MSG#" + userName + "#" + msg);
+                } catch (NullPointerException ex)
+                {
+                    receiver = clients.get(userName);
+                    receiver.sendMSG("MSG#" + userName + "#User doesn't exsist");
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
@@ -119,7 +142,15 @@ public class ChatServer
     public void sendToOne(String msg, String receivers, String userName)
     {
         ClientHandler receiver = clients.get(receivers);
-        receiver.sendMSG("MSG#"+userName+"#"+msg);
+        try
+        {
+            receiver.sendMSG("MSG#" + userName + "#" + msg);
+        } catch (NullPointerException ex)
+        {
+            receiver = clients.get(userName);
+            receiver.sendMSG("MSG#" + userName + "#User doesn't exsist");
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void removeUser(String userName)
@@ -133,10 +164,10 @@ public class ChatServer
         String msg = "USERLIST#";
         for (Map.Entry<String, ClientHandler> entry : clients.entrySet())
         {
-            temp = entry.getKey() ;
-            msg += temp + ", " ;
-            
+            temp = entry.getKey();
+            msg += temp + ", ";
+
         }
-      return msg;
+        return msg;
     }
 }
