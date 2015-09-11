@@ -94,13 +94,12 @@ public class ChatServer
             ClientHandler receiver = entry.getValue();
             try
             {
-
                 receiver.sendMSG("MSG#" + userName + "#" + msg);
             } catch (NullPointerException ex)
             {
                 receiver = clients.get(userName);
                 receiver.sendMSG("MSG#" + userName + "#User doesn't exsist");
-                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, ex.getMessage());
             }
         }
     }
@@ -109,7 +108,7 @@ public class ChatServer
     {
         if (clients.isEmpty())
         {
-
+            Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "No users left");
         }
         for (Map.Entry<String, ClientHandler> entry : clients.entrySet())
         {
@@ -133,7 +132,7 @@ public class ChatServer
                 {
                     receiver = clients.get(userName);
                     receiver.sendMSG("MSG#" + userName + "#User doesn't exsist");
-                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, ex.getMessage());
                 }
             }
         }
@@ -149,13 +148,14 @@ public class ChatServer
         {
             receiver = clients.get(userName);
             receiver.sendMSG("MSG#" + userName + "#User doesn't exsist");
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, ex.getMessage());
         }
     }
 
     public void removeUser(String userName)
     {
         clients.remove(userName);
+        Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, "User removed: " + userName);
     }
 
     public String userList()
@@ -166,7 +166,6 @@ public class ChatServer
         {
             temp = entry.getKey();
             msg += temp + ", ";
-
         }
         return msg;
     }
