@@ -54,6 +54,7 @@ public class ChatServer
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
                 Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Connected to a client");
+                
                 String inputToSplit = in.readLine();
                 splitInput = inputToSplit.split("#");
                 String command = splitInput[0];
