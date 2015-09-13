@@ -1,10 +1,14 @@
-sep 11, 2015 8:57:37 AM server.ChatServer runServer
-INFO: Sever started. Listening on: 9090, bound to: localhost
-sep 11, 2015 8:57:51 AM server.ChatServer runServer
-INFO: Connected to a client
-sep 11, 2015 8:58:05 AM server.ClientHandler run
-INFO: Received the message: MSG#G#HI 
-sep 11, 2015 8:58:05 AM server.ChatServer sendToOne
-INFO: null
-sep 11, 2015 8:58:05 AM server.ClientHandler run
-INFO: Received the message: MSG#G#HI 
+sep 11, 2015 2:33:58 PM server.ChatServer runServer
+INFO: Sever started. Listening on: 9090, bound to: 104.41.225.21
+sep 11, 2015 2:33:58 PM server.ChatServer runServer
+SEVERE: null
+java.net.BindException: Cannot assign requested address: JVM_Bind
+	at java.net.DualStackPlainSocketImpl.bind0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketBind(DualStackPlainSocketImpl.java:106)
+	at java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:376)
+	at java.net.PlainSocketImpl.bind(PlainSocketImpl.java:190)
+	at java.net.ServerSocket.bind(ServerSocket.java:376)
+	at java.net.ServerSocket.bind(ServerSocket.java:330)
+	at server.ChatServer.runServer(ChatServer.java:51)
+	at server.ChatServer.main(ChatServer.java:87)
+

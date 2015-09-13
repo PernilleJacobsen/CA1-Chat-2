@@ -1,5 +1,6 @@
 package server;
 
+import utils.Properties;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,7 +9,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
-import java.util.Properties;
+//import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
@@ -23,7 +24,7 @@ public class ChatServer
 {
 
     private ServerSocket serverSocket;
-    private static final Properties properties = Utils.initProperties("server.properties");
+//    private static final Properties properties = Utils.initProperties("server.properties");
     private BufferedReader in;
     private PrintWriter out;
     private static boolean keepRunning = true;
@@ -39,8 +40,10 @@ public class ChatServer
 
     private void runServer(ChatServer cs)
     {
-        int port = Integer.parseInt(properties.getProperty("port"));
-        String ip = properties.getProperty("serverIp");
+//        int port = Integer.parseInt(properties.getProperty("port"));
+//        String ip = properties.getProperty("serverIp");
+         int port = Properties.port;
+         String ip = Properties.serverIp;
 
         Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Sever started. Listening on: " + port + ", bound to: " + ip);
         try
@@ -75,7 +78,8 @@ public class ChatServer
 
     public static void main(String[] args)
     {
-        String logFile = properties.getProperty("logFile");
+//        String logFile = properties.getProperty("logFile");
+        String logFile = Properties.logFile;
         Utils.setLogFile(logFile, ChatServer.class.getName());
 
         try

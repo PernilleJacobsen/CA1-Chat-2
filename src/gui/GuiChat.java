@@ -9,10 +9,11 @@ import Client.ChatClient;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Properties;
+//import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.Utils;
+import utils.Properties;
 
 /**
  *
@@ -22,7 +23,7 @@ public class GuiChat extends javax.swing.JFrame implements Observer
 {
 
     ChatClient cc;
-    private static final Properties properties = Utils.initProperties("server.properties");
+//    private static final Properties properties = Utils.initProperties("server.properties");
 
     /**
      * Creates new form GuiChat
@@ -32,8 +33,10 @@ public class GuiChat extends javax.swing.JFrame implements Observer
         initComponents();
         cc = new ChatClient();
         cc.addObserver(this);
-        int port = Integer.parseInt(properties.getProperty("port"));
-        String ip = properties.getProperty("serverIp");
+//        int port = Integer.parseInt(properties.getProperty("port"));
+//        String ip = properties.getProperty("serverIp");
+        int port = Properties.port;
+        String ip = Properties.serverIp;
 
         try
         {
@@ -229,6 +232,7 @@ public class GuiChat extends javax.swing.JFrame implements Observer
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable()
         {
+            @Override
             public void run()
             {
                 new GuiChat().setVisible(true);
